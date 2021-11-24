@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+      - id: productModule
+        uri: lb://PRODUCT-SERVICE
+       # uri: http://localhost:8067/
+        predicates:
+        - Path=/product/**
+      - id: orderModule
+        #uri: lb://ORDER-SERVICE
+        uri: http://localhost:8068/
+        predicates:
+        - Path=/order/**
+      - id: invoiceModule
+       # uri: lb://INVOICE-SERVICE
+        uri: http://localhost:8069/
+        predicates:
+        - Path=/invoice/**
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+     prefer-ip-address: true
+     
+server:
+  port: 8989
